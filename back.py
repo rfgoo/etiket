@@ -42,6 +42,7 @@ def add_users():
         
     except:
         status = "ERROR 500"
+        
     return jsonify({'Name': name,
                     "Client": client,
                     "Status": status,})
