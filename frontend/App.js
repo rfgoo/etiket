@@ -16,7 +16,7 @@ const App = () => (
     <View style={styles.container}>
       <Image
         style={styles.Logo}
-        source={require('/Users/duarte/Documents/Developer/etiket/frontend/images/E.png')}
+        source={require('/Users/duarte/Documents/Developer/etiket-1/frontend/images/E.png')}
       />
     </View>
     <View>
