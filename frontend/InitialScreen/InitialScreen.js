@@ -4,7 +4,7 @@ import Logo from '/Users/duarte/Documents/Developer/etiket-1/frontend/images/E.p
 import Input from "../Input";
 import Button from "../components/Button";
 
-const InitialScreen = () => {
+const SignUpScreen = () => {
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
 const onSignInPressed = () => {
@@ -25,12 +25,12 @@ const onNewAccountPressed = () => {
             <Image source={Logo} style={[styles.logo, {height: height * 0.5}]} resizeMode="contain" />
 
             <Input
-                placeholder="email" 
+                placeholder="Email" 
                 value={email}
                 setValue={setEmail}
             />
             <Input 
-                placeholder="password"
+                placeholder="Password"
                 value={password}
                 setValue={setPassword}
                 secureTextEntry={true}
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default InitialScreen
+export default SignUpScreen

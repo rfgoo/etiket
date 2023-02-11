@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         marginVertical: 30,
     },
     container_SECONDARY: {
-        width: '80%',
+        width: '90%',
         padding: 40,
     },
     container_TERTIARY: {

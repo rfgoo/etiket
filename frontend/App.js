@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, SafeAreaView, StyleSheet, Text } from 'react-native';
+
+import Navigation from './Navigation';
 import InitialScreen from './InitialScreen';
+import SignUpScreen from './SignUpScreen';
 
 const Separator = () => <View style={styles.separator} />;
 
