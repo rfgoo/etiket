@@ -45,7 +45,7 @@ def add_users():
         
     return jsonify({'Name': name,
                     "Client": client,
-                    "Status": status})
+                    "Status": status,})
 
 
 @app.route('/log_in/<mail>/<passwd>/<client>', methods=['GET'])
