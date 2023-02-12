@@ -3,24 +3,29 @@ import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView } from "
 import Logo from '/Users/duarte/Documents/Developer/etiket-1/frontend/images/E.png'
 import Input from "../Input";
 import Button from "../components/Button";
+import { useNavigation } from "@react-navigation/native";
+
 
 const SignUpScreen = () => {
-const [email, setEmail] = useState('');
-const [password, setPassword] = useState('');
-const onSignInPressed = () => {
-    console.warn("sign in");
-}
-const onForgotPasswordPressed = () => {
-    console.warn("Forgot Password");
-}
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-const onNewAccountPressed = () => {
-    console.warn("New Account");
-}
+    const navigation = useNavigation();
+
+    const onSignInPressed = () => {
+        console.warn("Sign In");
+    }
+    const onForgotPasswordPressed = () => {
+        console.warn("Forgot Password");
+    }
+
+    const onNewAccountPressed = () => {
+        navigation.navigate('SignUpScreen');
+    }
 
     const {height} = useWindowDimensions();
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
             <View style={styles.root}>
             <Image source={Logo} style={[styles.logo, {height: height * 0.5}]} resizeMode="contain" />
 
@@ -46,6 +51,9 @@ const onNewAccountPressed = () => {
 }
 
 const styles = StyleSheet.create({
+    scroll: {
+        backgroundColor: "#1E1E1E"
+    },
     root: {
         alignItems: 'center',
         padding: 10,

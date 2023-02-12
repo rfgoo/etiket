@@ -3,24 +3,26 @@ import { View, Text, StyleSheet, useWindowDimensions, ScrollView } from "react-n
 import Input from "../Input";
 import Button from "../components/Button";
 
+
+import { useNavigation } from "@react-navigation/native";
+
 const InitialScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
+
+    const navigation = useNavigation();
+    
     const onRegisterPressed = () => {
         console.warn("Register");
     }
-    const onForgotPasswordPressed = () => {
-        console.warn("Forgot Password");
-    }
-
     const onSignInPressed = () => {
-        console.warn("New Account");
+        navigation.navigate('InitialScreen');
     }
 
     const { height } = useWindowDimensions();
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
             <View style={styles.root}>
 
                 <Text style={styles.title}>Create Account</Text>
@@ -52,9 +54,12 @@ const InitialScreen = () => {
 }
 
 const styles = StyleSheet.create({
+    scroll: {
+        backgroundColor: "#1E1E1E"
+    },
     root: {
         alignItems: 'center',
-        padding: 10,
+        padding: 20,
     },
     logo: {
         width: '90%',
@@ -72,7 +77,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Helvetica',
         fontSize: 12,
         color: 'grey',
-        margin: 10,
+        margin: 30,
         width: '80%',
     },
     link: {
