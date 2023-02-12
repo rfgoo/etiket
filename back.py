@@ -45,7 +45,7 @@ def add_users():
         
     return jsonify({'Name': name,
                     "Client": client,
-                    "Status": status,})
+                    "Status": status})
 
 
 @app.route('/log_in/<mail>/<passwd>/<client>', methods=['GET'])
@@ -87,4 +87,4 @@ def log_in(mail, passwd, client):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host = '192.168.1.5', port = 3000, debug=True)
