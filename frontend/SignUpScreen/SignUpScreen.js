@@ -20,7 +20,7 @@ const InitialScreen = () => {
     const navigation = useNavigation();
 
     const onRegisterPressed = (name, email, password, type) => {
-        fetch("http://192.168.1.5:3000/add", {
+        fetch("http://ip/add", {
             method: "POST",
             headers: {
                 Accept: 'application/json',

@@ -22,7 +22,10 @@ const SignUpScreen = () => {
         console.warn("Sign In");
         fetch(`http://ip/log_in/${email}/${password}/${type}`)
             .then(res => {
-                console.log(res.status);
+                if(res.status == "200"){
+                   console.log(res.status);
+                   navigation.navigate('HomeScreen');
+                }
                 return res.json();
             })
             .then(
