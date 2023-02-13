@@ -15,7 +15,7 @@ const InitialScreen = () => {
     const [passwordConfirm, setPasswordConfirm] = useState('');
 
     const type = ["Client", "Service"];
-    const [userChoice, setUserChoice] = useState("");
+    const [userType, setUserType] = useState("");
 
     const navigation = useNavigation();
 
@@ -79,7 +79,7 @@ const InitialScreen = () => {
                     defaultButtonText={'Select an Option'}
                     onSelect={(selectedItem, index) => {
                         console.log(selectedItem, index)
-                        setUserChoice(selectedItem);
+                        setUserType(selectedItem);
                     }}
                     buttonTextAfterSelection={(selectedItem, index) => {
                         // text represented after item is selected
@@ -93,7 +93,7 @@ const InitialScreen = () => {
                     rowTextStyle={styles.dropdown1RowTxtStyle}
                 />
 
-                <Button text="Register" onPress={() => onRegisterPressed(name, email, password, userChoice)} />
+                <Button text="Register" onPress={() => onRegisterPressed(name, email, password, userType)} />
                 <Text style={styles.text}>By registering, you confirm that you accept our <Text style={styles.link}>Terms of Use</Text> and <Text style={styles.link}>Privacy Policy</Text></Text>
                 <Button text="Already have an account?" onPress={onSignInPressed} type="SECONDARY" />
             </View>
