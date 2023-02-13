@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, useWindowDimensions, ScrollView } from "react-native";
-import DropDownPicker from 'react-native-dropdown-picker';
 
 import Input from "../Input";
 import Button from "../components/Button";
@@ -17,7 +16,7 @@ const InitialScreen = () => {
     const navigation = useNavigation();
     
     const onRegisterPressed = (name, email, password) => {
-        fetch("http://ip:port/add", {
+        fetch("http://ip/add", {
              method: "POST",
              headers: {
                  Accept: 'application/json',
