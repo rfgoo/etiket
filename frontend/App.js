@@ -8,7 +8,7 @@ const Separator = () => <View style={styles.separator} />;
 const App = () => {
   return (
     <SafeAreaView style ={styles.root}>
-      <Navigation />
+      <Navigation/>
     </SafeAreaView>
   );
 };

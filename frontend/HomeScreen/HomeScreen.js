@@ -4,35 +4,45 @@ import Input from "../Input";
 import Button from "../components/Button";
 
 import { useNavigation } from "@react-navigation/native";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Search from "../Search";
 
+function Home() {
+    return (
+      <View style={styles.root}>
+        <Text>Home!</Text>
+      </View>
+    );
+  }
 
 const HomeScreen = () => {
 
-    const navigation = useNavigation();
-
-
-    const onSignInPressed = () => {
-    }
+    const navigation = createBottomTabNavigator();
+    const Tab = createBottomTabNavigator();
 
     const { height } = useWindowDimensions();
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
-            <View style={styles.root}>
-                <Text>Hello World</Text>
-            </View>
-        </ScrollView>
-
+        
+        <Tab.Navigator screenOptions={{ headerShown: false, 
+                                        tabBarStyle:{backgroundColor: "grey"}, 
+                                        tabBarLabelStyle:{color: "white", fontFamily: 'Helvetica', fontSize: 15,},
+                                        }}>
+            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="Search" component={Search} />
+        </Tab.Navigator>
     )
 }
 
 const styles = StyleSheet.create({
-    scroll: {
+    root: {
+        flex: 1, 
+        justifyContent: 'center', 
+        alignItems: 'center',
         backgroundColor: "#1E1E1E"
     },
-    root: {
-        alignItems: 'center',
-        padding: 10,
-    },
+    tab: {
+        backgroundColor: "grey"
+    }
 })
 
 export default HomeScreen
