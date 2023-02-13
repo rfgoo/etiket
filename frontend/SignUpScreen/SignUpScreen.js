@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, useWindowDimensions, ScrollView } from "react-native";
+import DropDownPicker from 'react-native-dropdown-picker';
+
 import Input from "../Input";
 import Button from "../components/Button";
 
@@ -7,22 +9,22 @@ import Button from "../components/Button";
 import { useNavigation } from "@react-navigation/native";
 
 const InitialScreen = () => {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
 
     const navigation = useNavigation();
     
-    const onRegisterPressed = (email, password) => {
-        console.warn("Register");
-        fetch("http://192.168.1.5:3000/add", {
+    const onRegisterPressed = (name, email, password) => {
+        fetch("http://ip:port/add", {
              method: "POST",
              headers: {
                  Accept: 'application/json',
                  'Content-Type': 'application/json',
              },
              body: JSON.stringify({
-                 "name": "Duarte",
+                 "name": name,
                  "mail": email,
                  "passwd": password,
                  "client": true
@@ -48,6 +50,11 @@ const InitialScreen = () => {
 
                 <Text style={styles.title}>Create Account</Text>
                 <Input
+                    placeholder="Name"
+                    value={name}
+                    setValue={setName}
+                />
+                <Input
                     placeholder="Email"
                     value={email}
                     setValue={setEmail}
@@ -64,8 +71,7 @@ const InitialScreen = () => {
                     setValue={setPasswordConfirm}
                     secureTextEntry={true}
                 />
-
-                <Button text="Register" onPress={() => onRegisterPressed(email, password)} />
+                <Button text="Register" onPress={() => onRegisterPressed(name, email, password)} />
                 <Text style={styles.text}>By registering, you confirm that you accept our <Text style={styles.link}>Terms of Use</Text> and <Text style={styles.link}>Privacy Policy</Text></Text>
                 <Button text="Already have an account?" onPress={onSignInPressed} type="SECONDARY" />
             </View>
