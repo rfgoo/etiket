@@ -68,17 +68,9 @@ def log_in(mail, passwd, client):
     try:
         db = dataset.connect('sqlite:///etiket_db.db')
         print(mail, passwd, client)
-        if client == "true":
-        
-            entry = db['Client'].find_one(mail=mail, passwd=passwd)
-            entry.popitem()
-            return jsonify(entry)
-        
-        elif client == "false":
-
-            entry = db['Shop'].find_one(mail=mail, passwd=passwd)
-            entry.popitem()    
-            return jsonify(entry)
+        entry = db[client].find_one(mail=mail, passwd=passwd)
+        entry.popitem()
+        return jsonify(entry)
 
     except:
         return jsonify({"status":"ERROR 404 User not Found"})

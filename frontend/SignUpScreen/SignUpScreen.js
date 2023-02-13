@@ -14,13 +14,13 @@ const InitialScreen = () => {
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
 
-    const type = ["Client", "Service"];
+    const type = ["Client", "Shop"];
     const [userType, setUserType] = useState("");
 
     const navigation = useNavigation();
 
     const onRegisterPressed = (name, email, password, type) => {
-        fetch("http://ip/add", {
+        fetch("http://192.168.1.5:3000/add", {
             method: "POST",
             headers: {
                 Accept: 'application/json',
