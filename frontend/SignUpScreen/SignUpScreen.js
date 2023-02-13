@@ -13,8 +13,29 @@ const InitialScreen = () => {
 
     const navigation = useNavigation();
     
-    const onRegisterPressed = () => {
+    const onRegisterPressed = (email, password) => {
         console.warn("Register");
+        fetch("http://192.168.1.5:3000/add", {
+             method: "POST",
+             headers: {
+                 Accept: 'application/json',
+                 'Content-Type': 'application/json',
+             },
+             body: JSON.stringify({
+                 "name": "Duarte",
+                 "mail": email,
+                 "passwd": password,
+                 "client": true
+             })
+         })
+             .then(res => {
+                 console.log(res.status);
+                 return res.json();
+             })
+             .then(
+                 (result) => {
+                     console.log(result);
+                 })
     }
     const onSignInPressed = () => {
         navigation.navigate('InitialScreen');
@@ -44,7 +65,7 @@ const InitialScreen = () => {
                     secureTextEntry={true}
                 />
 
-                <Button text="Register" onPress={onRegisterPressed} />
+                <Button text="Register" onPress={() => onRegisterPressed(email, password)} />
                 <Text style={styles.text}>By registering, you confirm that you accept our <Text style={styles.link}>Terms of Use</Text> and <Text style={styles.link}>Privacy Policy</Text></Text>
                 <Button text="Already have an account?" onPress={onSignInPressed} type="SECONDARY" />
             </View>
