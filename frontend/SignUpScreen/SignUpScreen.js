@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, useWindowDimensions, ScrollView } from "react-native";
+import SelectDropdown from 'react-native-select-dropdown'
 
 import Input from "../Input";
 import Button from "../components/Button";
@@ -13,30 +14,32 @@ const InitialScreen = () => {
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
 
+    const type = ["Client", "Service"];
+
     const navigation = useNavigation();
-    
+
     const onRegisterPressed = (name, email, password) => {
         fetch("http://ip/add", {
-             method: "POST",
-             headers: {
-                 Accept: 'application/json',
-                 'Content-Type': 'application/json',
-             },
-             body: JSON.stringify({
-                 "name": name,
-                 "mail": email,
-                 "passwd": password,
-                 "client": true
-             })
-         })
-             .then(res => {
-                 console.log(res.status);
-                 return res.json();
-             })
-             .then(
-                 (result) => {
-                     console.log(result);
-                 })
+            method: "POST",
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "name": name,
+                "mail": email,
+                "passwd": password,
+                "client": true
+            })
+        })
+            .then(res => {
+                console.log(res.status);
+                return res.json();
+            })
+            .then(
+                (result) => {
+                    console.log(result);
+                })
     }
     const onSignInPressed = () => {
         navigation.navigate('InitialScreen');
@@ -70,6 +73,17 @@ const InitialScreen = () => {
                     setValue={setPasswordConfirm}
                     secureTextEntry={true}
                 />
+                <SelectDropdown  style={styles.dropdown}
+                    data={type}
+                    onSelect={(selectedItem, index) => {
+                        console.log(selectedItem, index)
+                    }}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                        // text represented after item is selected
+                        // if data array is an array of objects then return selectedItem.property to render after item is selected
+                        return selectedItem
+                    }}
+                />
                 <Button text="Register" onPress={() => onRegisterPressed(name, email, password)} />
                 <Text style={styles.text}>By registering, you confirm that you accept our <Text style={styles.link}>Terms of Use</Text> and <Text style={styles.link}>Privacy Policy</Text></Text>
                 <Button text="Already have an account?" onPress={onSignInPressed} type="SECONDARY" />
@@ -86,6 +100,12 @@ const styles = StyleSheet.create({
     root: {
         alignItems: 'center',
         padding: 20,
+    },
+    dropdown: {
+        width: '60%',
+        padding: 15,
+        borderRadius: 50,
+        alignItems: 'center'
     },
     logo: {
         width: '90%',
