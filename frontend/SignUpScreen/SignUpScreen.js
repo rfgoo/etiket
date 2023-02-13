@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, useWindowDimensions, ScrollView } from "react-native";
+import { View, Text, StyleSheet, useWindowDimensions, ScrollView, _Text } from "react-native";
 import SelectDropdown from 'react-native-select-dropdown'
 
 import Input from "../Input";
@@ -15,10 +15,11 @@ const InitialScreen = () => {
     const [passwordConfirm, setPasswordConfirm] = useState('');
 
     const type = ["Client", "Service"];
+    const [userChoice, setUserChoice] = useState("");
 
     const navigation = useNavigation();
 
-    const onRegisterPressed = (name, email, password) => {
+    const onRegisterPressed = (name, email, password, type) => {
         fetch("http://ip/add", {
             method: "POST",
             headers: {
@@ -29,7 +30,7 @@ const InitialScreen = () => {
                 "name": name,
                 "mail": email,
                 "passwd": password,
-                "client": true
+                "client": type
             })
         })
             .then(res => {
@@ -73,22 +74,31 @@ const InitialScreen = () => {
                     setValue={setPasswordConfirm}
                     secureTextEntry={true}
                 />
-                <SelectDropdown  style={styles.dropdown}
+                <SelectDropdown
                     data={type}
+                    defaultButtonText={'Select an Option'}
                     onSelect={(selectedItem, index) => {
                         console.log(selectedItem, index)
+                        setUserChoice(selectedItem);
                     }}
                     buttonTextAfterSelection={(selectedItem, index) => {
                         // text represented after item is selected
                         // if data array is an array of objects then return selectedItem.property to render after item is selected
                         return selectedItem
                     }}
+                    buttonStyle={styles.dropdown1BtnStyle}
+                    buttonTextStyle={styles.dropdown1BtnTxtStyle}
+                    dropdownStyle={styles.dropdown1DropdownStyle}
+                    rowStyle={styles.dropdown1RowStyle}
+                    rowTextStyle={styles.dropdown1RowTxtStyle}
                 />
-                <Button text="Register" onPress={() => onRegisterPressed(name, email, password)} />
+
+                <Button text="Register" onPress={() => onRegisterPressed(name, email, password, userChoice)} />
                 <Text style={styles.text}>By registering, you confirm that you accept our <Text style={styles.link}>Terms of Use</Text> and <Text style={styles.link}>Privacy Policy</Text></Text>
                 <Button text="Already have an account?" onPress={onSignInPressed} type="SECONDARY" />
             </View>
         </ScrollView>
+
 
     )
 }
@@ -100,12 +110,39 @@ const styles = StyleSheet.create({
     root: {
         alignItems: 'center',
         padding: 20,
+        zIndex: 1000
     },
-    dropdown: {
-        width: '60%',
-        padding: 15,
+    dropdown1BtnStyle: {
+        flex: 1,
+        height: 50,
+        backgroundColor: 'grey',
         borderRadius: 50,
-        alignItems: 'center'
+        width: '70%',
+      },
+    dropdown1BtnTxtStyle: { 
+        textAlign: 'center',
+        color: 'white',
+        fontFamily: 'Helvetica',
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginVertical: 10,
+    },
+    dropdown1DropdownStyle: { 
+        backgroundColor: '#grey',
+        marginVertical: 10,
+        height: 200,
+    },
+    dropdown1RowStyle: { 
+        backgroundColor: 'white',
+        margin: 2,
+        borderBottomColor: 'grey',
+        borderRadius: 50, 
+        marginVertical: 10,
+    },
+    dropdown1RowTxtStyle: {
+        fontFamily: 'Helvetica',
+        fontSize: 18,
+        textAlign: 'center' 
     },
     logo: {
         width: '90%',
