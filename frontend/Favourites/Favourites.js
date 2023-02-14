@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
 
-const Search = () => {
+const Favourites = () => {
 
     const navigation = useNavigation();
 
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
       }
 })
 
-export default Search
+export default Favourites
