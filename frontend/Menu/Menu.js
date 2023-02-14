@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
 
-const Search = () => {
+const Menu = () => {
 
     const navigation = useNavigation();
 
@@ -16,28 +16,29 @@ const Search = () => {
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
             <View style={styles.root}>
-                <Text style={styles.text}>Search</Text>
+                <Text style={styles.text}>MENU</Text>
             </View>
         </ScrollView>
+
     )
 }
 
 const styles = StyleSheet.create({
     scroll: {
         backgroundColor: "#1E1E1E"
-      },
-      root: {
+    },
+    root: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: "#1E1E1E",
-      },
-      text: {
+    },
+    text: {
         fontFamily: 'Helvetica',
         fontSize: 20,
         fontWeight: 'bold',
         color: "#3C6CA4"
-      }
+    }
 })
 
-export default Search
+export default Menu
