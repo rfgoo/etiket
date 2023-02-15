@@ -16,7 +16,15 @@ function Home() {
     <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
       <View style={styles.root}>
         <Image source={Ticket} style={[styles.logo]} resizeMode="contain" />
-        <Text style={styles.text}></Text>
+        <View style={styles.onTicket}>
+          <Text style={styles.ticketNumberText}>Nº N/A</Text>
+          <View style={styles.onTicketSecondary}>
+            <Text style={styles.ticketIndexText}>Nº Atual: N/A</Text>
+          <Text style={styles.ticketTime}>Nº Atual: N/A</Text>
+          </View>
+          
+        </View>
+
       </View>
     </ScrollView>
 
@@ -64,7 +72,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1E1E1E"
   },
   logo: {
-    marginTop:-10,
+    marginTop: -10,
     minHeight: 400,
     minWidth: 400,
   },
@@ -82,6 +90,32 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: "#3C6CA4"
+  },
+  onTicket: {
+    position: 'absolute',
+    top: 80,
+  },
+  ticketNumberText: {
+    fontFamily: 'Helvetica',
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: "#3C6CA4"
+  },
+  ticketIndexText: {
+    fontFamily: 'Helvetica',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: "#3C6CA4"
+  },
+  ticketTime: {
+    fontFamily: 'Helvetica',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: "#3C6CA4",
+  },
+  onTicketSecondary: {
+    position: 'absolute',
+    top: 100,
   }
 })
 
