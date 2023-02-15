@@ -20,9 +20,9 @@ function Home() {
           <Text style={styles.ticketNumberText}>Nº N/A</Text>
           <View style={styles.onTicketSecondary}>
             <Text style={styles.ticketIndexText}>Nº Atual: N/A</Text>
-          <Text style={styles.ticketTime}>Nº Atual: N/A</Text>
+            <Text style={styles.ticketTime}>Nº Atual: N/A</Text>
           </View>
-          
+
         </View>
 
       </View>
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica',
     fontSize: 20,
     fontWeight: 'bold',
-    color: "#3C6CA4"
+    color: "#3C6CA4",
   },
   onTicket: {
     position: 'absolute',
@@ -105,17 +105,23 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica',
     fontSize: 20,
     fontWeight: 'bold',
-    color: "#3C6CA4"
+    color: "#3C6CA4",
+    padding: 10
   },
   ticketTime: {
     fontFamily: 'Helvetica',
     fontSize: 20,
     fontWeight: 'bold',
     color: "#3C6CA4",
+    padding: 10,
+    alignContent: "center"
   },
   onTicketSecondary: {
     position: 'absolute',
     top: 100,
+    minWidth: 200,
+    padding: 10,
+    alignContent: "center"
   }
 })
 
