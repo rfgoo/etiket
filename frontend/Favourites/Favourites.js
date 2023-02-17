@@ -35,17 +35,23 @@ const Favourites = () => {
   const [data, setData] = useState('');
   
   if (i == 0) {
-    fetch(`http://192.168.1.5:3000/get_shops`)
+    fetch(`http://ip/get_shops`)
       .then(res => {
         return res.json();
       })
       .then(
         (result) => {
-          console.log(result);
           setData(result)
         })
     i++;
   }
+
+  for (const property in data) {
+    console.log(`${object[property]}`);
+
+  }
+
+  console.log(data.pluck(data, 'id'));
 
   const navigation = useNavigation();
 
