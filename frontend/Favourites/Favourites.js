@@ -41,17 +41,11 @@ const Favourites = () => {
       })
       .then(
         (result) => {
+          console.log(result);
           setData(result)
         })
     i++;
   }
-
-  for (const property in data) {
-    console.log(`${object[property]}`);
-
-  }
-
-  console.log(data.pluck(data, 'id'));
 
   const navigation = useNavigation();
 
@@ -60,7 +54,7 @@ const Favourites = () => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={data}
-        renderItem={({ item }) => <Item title={item.data} />}
+        renderItem={({ item }) => <Item title={item.shop_name} />}
         keyExtractor={item => item.id}
       />
     </SafeAreaView>
