@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView } from "react-native";
+import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, Pressable } from "react-native";
 import Input from "../Input";
 import Button from "../components/Button";
 import Logo from "../images/Home.png";
@@ -12,6 +12,20 @@ import Search from "../Favourites";
 import Menu from "../Menu";
 
 function Home() {
+  const [index, setIndex] = useState(0);
+  const onCancelPressed = () => {
+    console.warn("Cancel");
+    index = 1;
+  }
+
+  const onDelayPressed = () => {
+    console.warn("Delay");
+  }
+  let textLog = 'N/A';
+  if (index > 0) {
+    textLog = index;
+  }
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
       <View style={styles.root}>
@@ -19,12 +33,28 @@ function Home() {
         <View style={styles.onTicket}>
           <Text style={styles.ticketNumberText}>Nº N/A</Text>
           <View style={styles.onTicketSecondary}>
-            <Text style={styles.ticketIndexText}>Nº Atual: N/A</Text>
-            <Text style={styles.ticketTime}>Nº Atual: N/A</Text>
+            <Text style={styles.ticketIndexText}>Nº Atual: {textLog}</Text>
+            <Text style={styles.ticketTime}>Tempo de espera: N/A</Text>
           </View>
 
         </View>
-
+        <Pressable
+          onPress={() => {
+            setIndex((current) => current + 1);
+          }}
+          style={({ pressed }) => [
+            {
+              backgroundColor: pressed
+                ? 'rgb(107, 51, 137)'
+                : '#3C6CA4'
+            },
+            styles.container
+          ]}>
+          {({ pressed }) => (
+            <Text style={styles.textButton}>Cancel</Text>
+          )}
+        </Pressable>
+        <Button text="Delay" onPress={() => onDelayPressed()} />
       </View>
     </ScrollView>
 
@@ -78,9 +108,9 @@ const styles = StyleSheet.create({
   },
   root: {
     flex: 1,
+    backgroundColor: "#1E1E1E",
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "#1E1E1E",
   },
   tab: {
     backgroundColor: "grey"
@@ -103,14 +133,14 @@ const styles = StyleSheet.create({
   },
   ticketIndexText: {
     fontFamily: 'Helvetica',
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: 'bold',
     color: "#3C6CA4",
     padding: 10
   },
   ticketTime: {
     fontFamily: 'Helvetica',
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: 'bold',
     color: "#3C6CA4",
     padding: 10,
@@ -120,9 +150,20 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 100,
     minWidth: 200,
-    padding: 10,
-    alignContent: "center"
-  }
+    marginLeft: -70
+  },
+  container: {
+    width: '60%',
+    padding: 15,
+    borderRadius: 50,
+    alignItems: 'center'
+  },
+  textButton: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    fontFamily: 'Helvetica'
+  },
 })
 
 export default HomeScreen
