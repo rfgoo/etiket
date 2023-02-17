@@ -6,25 +6,6 @@ import Button from "../components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'Loja 1',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Loja 2',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Loja 3',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d74',
-    title: 'Loja 4',
-  }
-];
-
 const Item = ({ title }) => (
   <View style={styles.item}>
     <Text style={styles.title}>{title}</Text>
@@ -47,8 +28,24 @@ const Item = ({ title }) => (
   </View>
 );
 
+let i = 0;
 
 const Favourites = () => {
+
+  const [data, setData] = useState('');
+  
+  if (i == 0) {
+    fetch(`http://192.168.1.5:3000/get_shops`)
+      .then(res => {
+        return res.json();
+      })
+      .then(
+        (result) => {
+          console.log(result);
+          setData(result)
+        })
+    i++;
+  }
 
   const navigation = useNavigation();
 
@@ -56,8 +53,8 @@ const Favourites = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={DATA}
-        renderItem={({ item }) => <Item title={item.title} />}
+        data={data}
+        renderItem={({ item }) => <Item title={item.data} />}
         keyExtractor={item => item.id}
       />
     </SafeAreaView>

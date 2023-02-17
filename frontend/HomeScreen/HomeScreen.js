@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, Pressable } from "react-native";
+import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, Pressable, TouchableOpacity } from "react-native";
 import Input from "../Input";
 import Button from "../components/Button";
 import Logo from "../images/Home.png";
@@ -8,8 +8,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import { useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Search from "../Favourites";
 import Menu from "../Menu";
+import Favourites from "../Favourites";
+
 
 function Home() {
   const [index, setIndex] = useState(0);
@@ -87,8 +88,8 @@ const HomeScreen = () => {
           <MaterialCommunityIcons name="home" color="#1E1E1E" size={size} style={{ color: focused ? "#3C6CA4" : "1E1E1E" }} />
         ),
       }} />
-      <Tab.Screen name="Search" component={Search} options={{
-        tabBarLabel: 'Home',
+      <Tab.Screen name="Favourites" component={Favourites} options={{
+        tabBarLabel: 'Favourites',
         tabBarIcon: ({ focused, size }) => (
           <MaterialCommunityIcons name="star" color="#1E1E1E" size={size} style={{ color: focused ? "#3C6CA4" : "1E1E1E" }} />
         ),

@@ -91,4 +91,4 @@ def log_in(mail, passwd, client):
 
 
 if __name__ == "__main__":
-    app.run(host = 'ip', port = 3000, debug=True)
+    app.run(host = '192.168.1.5', port = 3000, debug=True)
