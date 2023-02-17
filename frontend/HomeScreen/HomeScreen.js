@@ -73,7 +73,7 @@ const HomeScreen = () => {
     <Tab.Navigator screenOptions={{
       tabBarShowLabel: false,
       headerShown: false,
-      tabBarStyle: { backgroundColor: "grey" },
+      tabBarStyle: { backgroundColor: "grey"},
       tabBarLabelStyle: { color: "white", fontFamily: 'Helvetica', fontSize: 15, }
     }}>
       <Tab.Screen name="Menu" component={Menu} options={{
