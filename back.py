@@ -47,6 +47,18 @@ def add_users():
                     "Client": client,
                     "Status": status,})
 
+@app.route('/get_shops', methods=['GET'])
+def get_shops():
+    try:
+        db = dataset.connect('sqlite:///etiket_db.db')
+        entry = []
+        for shop in db['Shop']:
+            shop.popitem()
+            entry.append(shop)
+
+        return jsonify(entry)
+    except:
+        return jsonify({"status": "ERROR 404 User not Found"})
 
 @app.route('/log_in/<mail>/<passwd>/<client>', methods=['GET'])
 def log_in(mail, passwd, client):
