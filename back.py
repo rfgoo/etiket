@@ -67,17 +67,25 @@ def favorites():
 def get_fav(user_id):
     try:
         db = dataset.connect('sqlite:///etiket_db.db')
-        entry = []
-        for shop in db['Favorites']:
-            if shop['user_id'] == int(user_id):
-                entry.append(shop['shop_id'])
         
-        entry_shop = []
-        for id in entry:
-            shop = db['Shop'].find_one(id=id)
-            shop.popitem()
-            entry_shop.append(shop)    
-        
+        try:
+            entry = []
+            for shop in db['Favorites']:
+                if shop['user_id'] == int(user_id):
+                    entry.append(shop['shop_id'])
+        except:
+            return jsonify({"status": "ERROR 404 shop not Found"})
+
+
+        try:
+            entry_shop = []
+            for id in entry:
+                shop = db['Shop'].find_one(id=id)
+                shop.popitem()
+                entry_shop.append(shop)    
+        except:
+            return jsonify({"status": "ERROR 404 Shop not Found"}) 
+
         return jsonify(entry_shop)
     except:
         return jsonify({"status": "ERROR 404 Favourites not Found"})

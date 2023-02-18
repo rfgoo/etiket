@@ -6,46 +6,7 @@ import Button from "../components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const Item = ({ title }) => (
-    <View style={styles.item}>
-        <Text style={styles.title}>{title}</Text>
-        <View style={styles.itemButton}>
-            <Pressable
-                style={({ pressed }) => [
-                    {
-                        backgroundColor: pressed
-                            ? 'rgb(107, 51, 137)'
-                            : '#3C6CA4'
-                    },
-                    styles.button
-                ]}
-                onPress={() => {
-                    //qq coisa
-                }}>
-                {({ pressed }) => (
-                    <Text style={styles.textButton}>Ticket</Text>
-                )}
-            </Pressable>
-            <Pressable
-                style={({ pressed }) => [
-                    {
-                        backgroundColor: pressed
-                            ? 'rgb(107, 51, 137)'
-                            : '#3C6CA4'
-                    },
-                    styles.button
-                ]}
-                onPress={() => {
-                    //qq coisa
-                }}>
-                {({ pressed }) => (
-                    <Text style={styles.textButton}>Remove</Text>
-                )}
-            </Pressable>
-        </View>
 
-    </View>
-);
 
 let i = 0;
 const Favourites = (props) => {
@@ -63,10 +24,54 @@ const Favourites = (props) => {
             })
             .then(
                 (result) => {
-                    setData(result)
+                    console.log(result);
+                    setData(result);
                 })
         i++;
     }
+
+
+
+    const Item = ({ title }) => (
+        <View style={styles.item}>
+            <Text style={styles.title}>{title}</Text>
+            <View style={styles.itemButton}>
+                <Pressable
+                    style={({ pressed }) => [
+                        {
+                            backgroundColor: pressed
+                                ? 'rgb(107, 51, 137)'
+                                : '#3C6CA4'
+                        },
+                        styles.button
+                    ]}
+                    onPress={() => {
+                        //qq coisa
+                    }}>
+                    {({ pressed }) => (
+                        <Text style={styles.textButton}>Ticket</Text>
+                    )}
+                </Pressable>
+                <Pressable
+                    style={({ pressed }) => [
+                        {
+                            backgroundColor: pressed
+                                ? 'rgb(107, 51, 137)'
+                                : '#3C6CA4'
+                        },
+                        styles.button
+                    ]}
+                    onPress={() => {
+                        //qq coisa
+                    }}>
+                    {({ pressed }) => (
+                        <Text style={styles.textButton}>Remove</Text>
+                    )}
+                </Pressable>
+            </View>
+
+        </View>
+    );
 
     const navigation = useNavigation();
 

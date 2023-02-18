@@ -19,7 +19,6 @@ const SignUpScreen = () => {
     const [userType, setUserType] = useState("");
 
     const onSignInPressed = (email, password, type) => {
-        console.warn("Sign In");
         let valid = false;
         fetch(`http://ip/log_in/${email}/${password}/${type}`)
             .then(res => {
