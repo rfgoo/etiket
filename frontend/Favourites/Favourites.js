@@ -72,7 +72,7 @@ const Favourites = ({ route }) => {
 
             <FlatList
                 data={data}
-                renderItem={({ item }) => <Item title={item.id} />}
+                renderItem={({ item }) => <Item title={item.shop_name} />}
                 keyExtractor={item => item.id}
             />
         </SafeAreaView>
