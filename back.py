@@ -129,13 +129,23 @@ def ticket():
         
         shop_id = request.json['shop_id']
         user_id = request.json['user_id']
-        
+        shop_name = db['Shop'].find_one(id=shop_id)['shop_name']
+        print(shop_name)
+
         last_number = 0
-    
+
+        # gets the last ticket number
         for ticket in db['Ticket']:
 
             if ticket['number'] > last_number and ticket['shop_id'] == shop_id:
                 last_number = ticket['number']
+
+        current_number = int(1e4)
+        # gets the current number
+        for ticket in db['Ticket']:
+
+            if ticket['number'] < current_number and ticket['shop_id'] == shop_id:
+                current_number = ticket['number']
 
         try:
             
@@ -145,8 +155,17 @@ def ticket():
 
             time = 3
 
+
+
         db['Ticket'].insert(dict(shop_id=shop_id, user_id=user_id, number=last_number + 1, time=time))
-        return jsonify(dict(shop_id=shop_id, user_id=user_id, number=last_number + 1, time=time))
+        if current_number == 1e4:
+            current_number=1
+        return jsonify(dict(shop_name = shop_name,
+                            shop_id=shop_id,
+                            user_id=user_id,
+                            number=last_number + 1,
+                            current_number = current_number,
+                            time=time))
     except:
         return jsonify({"status": "ERROR 404 User not Found"})
 
