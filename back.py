@@ -82,6 +82,19 @@ def get_fav(user_id):
     except:
         return jsonify({"status": "ERROR 404 Favourites not Found"})
 
+@app.route('/get_shop/<shop_name>',methods=['GET'])
+def get_name_by_id(shop_name):
+    
+    try:
+        db = dataset.connect('sqlite:///etiket_db.db')
+        entry = db['Shop'].find_one(shop_name=shop_name)
+        entry.popitem()
+        return jsonify(entry)
+
+    except:
+        return jsonify({"status":"ERROR 404 Shop not Found"})
+
+
 @app.route('/get_shops', methods=['GET'])
 def get_shops():
     try:
