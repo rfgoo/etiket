@@ -47,6 +47,41 @@ def add_users():
                     "Client": client,
                     "Status": status,})
 
+@app.route('/fav', methods=['POST'])
+def favorites():
+    try:
+        db = dataset.connect('sqlite:///etiket_db.db')
+        shop_id = request.json['shop_id']
+        user_id = request.json['user_id']
+        
+        db['Favorites'].insert(dict(shop_id=shop_id, user_id=user_id))
+        status = "200 OK"
+
+        return jsonify({'shop_id': shop_id,
+                    "user_id": user_id,
+                    "Status": status,})
+    except:
+        return jsonify({"status": "ERROR 404 User not Found"})
+
+@app.route('/get_fav/<user_id>',methods=['GET'])
+def get_fav(user_id):
+    try:
+        db = dataset.connect('sqlite:///etiket_db.db')
+        entry = []
+        for shop in db['Favorites']:
+            if shop['user_id'] == int(user_id):
+                entry.append(shop['shop_id'])
+        
+        entry_shop = []
+        for id in entry:
+            shop = db['Shop'].find_one(id=id)
+            shop.popitem()
+            entry_shop.append(shop)    
+        
+        return jsonify(entry_shop)
+    except:
+        return jsonify({"status": "ERROR 404 Favourites not Found"})
+
 @app.route('/get_shops', methods=['GET'])
 def get_shops():
     try:
@@ -91,4 +126,4 @@ def log_in(mail, passwd, client):
 
 
 if __name__ == "__main__":
-    app.run(host = 'ip', port = 3000, debug=True)
+    app.run(host = '127.0.0.1', port = 3000, debug=True)
