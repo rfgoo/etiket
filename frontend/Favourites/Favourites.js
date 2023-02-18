@@ -64,7 +64,6 @@ const Favourites = (props) => {
             .then(
                 (result) => {
                     setData(result)
-                    console.log(result);
                 })
         i++;
     }
