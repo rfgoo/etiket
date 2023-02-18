@@ -15,24 +15,24 @@ const Menu = (props) => {
 
   // gets the ID of the client that signed in
   console.log("PROP: " + JSON.stringify(props.route["params"]["clientId"]));
-  let id = JSON.stringify(props.route["params"]["clientId"])
+  let id = parseInt(JSON.stringify(props.route["params"]["clientId"]));
 
   const [data, setData] = useState('');
 
   if (i == 0) {
-    fetch(`http://ip/get_shops`)
+    fetch(`http://192.168.1.5:3000/get_shops`)
       .then(res => {
         return res.json();
       })
       .then(
         (result) => {
           console.log(result);
-          setData(result)
+          setData(result);
         })
     i++;
   }
+
   
-  console.log(JSON.stringify(data[id-1]["shop_name"]));
 
   const Item = ({ title, shopId }) => (
     <View style={styles.item}>
@@ -71,8 +71,8 @@ const Menu = (props) => {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                "shop_name": JSON.stringify(data[id-1]["shop_name"]),
-                "user_id": shopId
+                "shop_id": shopId,
+                "user_id": id
               })
             })
               .then(res => {
@@ -101,7 +101,7 @@ const Menu = (props) => {
 
       <FlatList
         data={data}
-        renderItem={({ item }) => <Item title={item.shop_name} shopId={item.shop_id} />}
+        renderItem={({ item }) => <Item title={item.shop_name} shopId={item.id} />}
         keyExtractor={item => item.id}
       />
     </SafeAreaView>
