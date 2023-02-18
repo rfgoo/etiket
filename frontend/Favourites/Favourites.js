@@ -48,17 +48,21 @@ const Item = ({ title }) => (
 );
 
 let i = 0;
-const Favourites = ({ route }) => {
+const Favourites = (props) => {
+
+    //console.log("PROP: " + JSON.stringify(props.route));
+    // gets the ID of the client that signed in
+    console.log("PROP: " + JSON.stringify(props.route["params"]));
     const [data, setData] = useState('');
+    let id = JSON.stringify(props.route["params"]["clientId"]);
 
     if (i == 0) {
-        fetch(`http://ip/get_fav/1`)
+        fetch(`http://ip/get_fav/${id}`)
             .then(res => {
                 return res.json();
             })
             .then(
                 (result) => {
-                    console.log("Favs!!!! " + result);
                     setData(result)
                 })
         i++;

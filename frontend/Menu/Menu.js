@@ -7,50 +7,15 @@ import { useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
-const Item = ({ title }) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-    <View style={styles.itemButton}>
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed
-              ? 'rgb(107, 51, 137)'
-              : '#3C6CA4'
-          },
-          styles.button
-        ]}
-        onPress={() => {
-          //qq coisa
-        }}>
-        {({ pressed }) => (
-          <Text style={styles.textButton}>Ticket</Text>
-        )}
-      </Pressable>
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed
-              ? 'rgb(107, 51, 137)'
-              : '#3C6CA4'
-          },
-          styles.button
-        ]}
-        onPress={() => {
-          //qq coisa
-        }}>
-        {({ pressed }) => (
-          <Text style={styles.textButton}>Favourite</Text>
-        )}
-      </Pressable>
-    </View>
 
-  </View>
-);
 
 let i = 0;
 
-const Menu = () => {
+const Menu = (props) => {
+
+  // gets the ID of the client that signed in
+  console.log("PROP: " + JSON.stringify(props.route["params"]["clientId"]));
+  let id = JSON.stringify(props.route["params"]["clientId"])
 
   const [data, setData] = useState('');
 
@@ -66,14 +31,77 @@ const Menu = () => {
         })
     i++;
   }
+  
+  console.log(JSON.stringify(data[id-1]["shop_name"]));
+
+  const Item = ({ title, shopId }) => (
+    <View style={styles.item}>
+      <Text style={styles.title}>{title}</Text>
+      <View style={styles.itemButton}>
+        <Pressable
+          style={({ pressed }) => [
+            {
+              backgroundColor: pressed
+                ? 'rgb(107, 51, 137)'
+                : '#3C6CA4'
+            },
+            styles.button
+          ]}
+          onPress={() => {
+            //qq coisa
+          }}>
+          {({ pressed }) => (
+            <Text style={styles.textButton}>Ticket</Text>
+          )}
+        </Pressable>
+        <Pressable
+          style={({ pressed }) => [
+            {
+              backgroundColor: pressed
+                ? 'rgb(107, 51, 137)'
+                : '#3C6CA4'
+            },
+            styles.button
+          ]}
+          onPress={() => {
+            fetch("http://ip/fav", {
+              method: "POST",
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                "shop_name": JSON.stringify(data[id-1]["shop_name"]),
+                "user_id": shopId
+              })
+            })
+              .then(res => {
+                console.log(res.status);
+                return res.json();
+              })
+              .then(
+                (result) => {
+                  console.log(result);
+                })
+          }}>
+          {({ pressed }) => (
+            <Text style={styles.textButton}>Favourite</Text>
+          )}
+        </Pressable>
+      </View>
+
+    </View>
+  );
+
+  
 
   const { height } = useWindowDimensions();
   return (
     <SafeAreaView style={styles.container}>
-      
+
       <FlatList
         data={data}
-        renderItem={({ item }) => <Item title={item.shop_name} />}
+        renderItem={({ item }) => <Item title={item.shop_name} shopId={item.shop_id} />}
         keyExtractor={item => item.id}
       />
     </SafeAreaView>

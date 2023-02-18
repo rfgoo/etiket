@@ -53,7 +53,7 @@ const SignUpScreen = () => {
 
                 <Input
                     placeholder="Email"
-                    value={email}
+                    value={email.toLowerCase()}
                     setValue={setEmail}
                 />
                 <Input

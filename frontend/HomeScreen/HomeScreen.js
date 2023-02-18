@@ -12,7 +12,11 @@ import Menu from "../Menu";
 import Favourites from "../Favourites";
 
 
-function Home({ route }) {
+function Home(props) {
+
+  // gets the ID of the client that signed in
+  console.log("PROP: " + JSON.stringify(props.route["params"]));
+
   const [index, setIndex] = useState(0);
   const onCancelPressed = () => {
     console.warn("Cancel");
@@ -79,19 +83,19 @@ const HomeScreen = ({ route }) => {
       tabBarStyle: { backgroundColor: "grey"},
       tabBarLabelStyle: { color: "white", fontFamily: 'Helvetica', fontSize: 15, }
     }}>
-      <Tab.Screen name="Menu" component={Menu} options={{
+      <Tab.Screen name="Menu" component={Menu} initialParams={{ clientId: clientId }} options={{
         tabBarLabel: 'Menu',
         tabBarIcon: ({ focused, size }) => (
           <MaterialCommunityIcons name="menu" color="#1E1E1E" size={size} style={{ color: focused ? "#3C6CA4" : "1E1E1E" }} />
         ),
       }} />
-      <Tab.Screen name="Home" component={Home} options={{
+      <Tab.Screen name="Home" component={Home} initialParams={{ clientId: clientId }} options={{
         tabBarLabel: 'Home',
         tabBarIcon: ({ focused, size }) => (
           <MaterialCommunityIcons name="home" color="#1E1E1E" size={size} style={{ color: focused ? "#3C6CA4" : "1E1E1E" }} />
         ),
       }} />
-      <Tab.Screen name="Favourites" component={Favourites} options={{
+      <Tab.Screen name="Favourites" component={Favourites} initialParams={{ clientId: clientId }} options={{
         tabBarLabel: 'Favourites',
         tabBarIcon: ({ focused, size }) => (
           <MaterialCommunityIcons name="star" color="#1E1E1E" size={size} style={{ color: focused ? "#3C6CA4" : "1E1E1E" }} />
