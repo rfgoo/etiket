@@ -20,17 +20,21 @@ const SignUpScreen = () => {
 
     const onSignInPressed = (email, password, type) => {
         console.warn("Sign In");
+        let valid = false;
         fetch(`http://ip/log_in/${email}/${password}/${type}`)
             .then(res => {
                 if(res.status == "200"){
                    console.log(res.status);
-                   navigation.navigate('HomeScreen');
+                   valid = true;
                 }
                 return res.json();
             })
             .then(
                 (result) => {
-                    console.log(result);
+                    console.log(valid);
+                    navigation.navigate('HomeScreen', {
+                        clientId: result["id"]
+                      });
                 })
     }
     const onForgotPasswordPressed = () => {

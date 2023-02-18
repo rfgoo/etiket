@@ -6,6 +6,7 @@ import Button from "../components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+
 const Item = ({ title }) => (
   <View style={styles.item}>
     <Text style={styles.title}>{title}</Text>
@@ -52,7 +53,7 @@ let i = 0;
 const Menu = () => {
 
   const [data, setData] = useState('');
-  
+
   if (i == 0) {
     fetch(`http://ip/get_shops`)
       .then(res => {
@@ -66,11 +67,10 @@ const Menu = () => {
     i++;
   }
 
-  const navigation = useNavigation();
-
   const { height } = useWindowDimensions();
   return (
     <SafeAreaView style={styles.container}>
+      
       <FlatList
         data={data}
         renderItem={({ item }) => <Item title={item.shop_name} />}

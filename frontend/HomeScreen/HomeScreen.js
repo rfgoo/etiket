@@ -12,12 +12,13 @@ import Menu from "../Menu";
 import Favourites from "../Favourites";
 
 
-function Home() {
+function Home({ route }) {
   const [index, setIndex] = useState(0);
   const onCancelPressed = () => {
     console.warn("Cancel");
     index = 1;
   }
+  
 
   const onDelayPressed = () => {
     console.warn("Delay");
@@ -62,15 +63,17 @@ function Home() {
   );
 }
 
-const HomeScreen = () => {
+const HomeScreen = ({ route }) => {
 
   const navigation = createBottomTabNavigator();
   const Tab = createBottomTabNavigator();
+  const {clientId} = route.params;
+  console.log(JSON.stringify(clientId));
 
   const { height } = useWindowDimensions();
   return (
 
-    <Tab.Navigator screenOptions={{
+    <Tab.Navigator initialRouteName="Home" screenOptions={{
       tabBarShowLabel: false,
       headerShown: false,
       tabBarStyle: { backgroundColor: "grey"},

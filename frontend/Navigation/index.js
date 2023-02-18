@@ -16,10 +16,10 @@ const Navigation = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="HomeScreen" component={HomeScreen} />
+
                 <Stack.Screen name="InitialScreen" component={InitialScreen} />
                 <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-
+                <Stack.Screen name="HomeScreen" component={HomeScreen} />
             </Stack.Navigator>
         </NavigationContainer>
 
