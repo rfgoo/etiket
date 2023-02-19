@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, FlatList, SafeAreaView, StatusBar, Pressable } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, FlatList, SafeAreaView, StatusBar, Pressable, RefreshControl, ActivityIndicator } from "react-native";
 import Input from "../Input";
 import Button from "../components/Button";
 
@@ -17,7 +17,12 @@ const Favourites = (props) => {
     const [data, setData] = useState('');
     let id = JSON.stringify(props.route["params"]["clientId"]);
 
-    if (i == 0) {
+    const [refreshing, setRefreshing] = useState(true);
+    useEffect(() => {
+        loadUserData();
+    }, []);
+
+    const loadUserData = () => {
         fetch(`http://ip/get_fav/${id}`)
             .then(res => {
                 return res.json();
@@ -25,8 +30,11 @@ const Favourites = (props) => {
             .then(
                 (result) => {
                     console.log(result);
+                    setRefreshing(false);
                     setData(result);
                 })
+    }
+    if (i == 0) {
         i++;
     }
 
@@ -56,8 +64,8 @@ const Favourites = (props) => {
                     style={({ pressed }) => [
                         {
                             backgroundColor: pressed
-                                ? 'rgb(107, 51, 137)'
-                                : '#3C6CA4'
+                                ? '#AB5858'
+                                : '#B83143'
                         },
                         styles.button
                     ]}
@@ -78,11 +86,14 @@ const Favourites = (props) => {
     const { height } = useWindowDimensions();
     return (
         <SafeAreaView style={styles.container}>
-
+            {refreshing ? <ActivityIndicator color="#3C6CA4"/> : null}
             <FlatList
                 data={data}
                 renderItem={({ item }) => <Item title={item.shop_name} />}
                 keyExtractor={item => item.id}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={loadUserData} />
+                  }
             />
         </SafeAreaView>
 

@@ -20,7 +20,7 @@ const Menu = (props) => {
   const [data, setData] = useState('');
 
   if (i == 0) {
-    fetch(`http://ip/get_shops`)
+    fetch(`http://192.168.1.5:3000/get_shops`)
       .then(res => {
         return res.json();
       })
@@ -59,7 +59,7 @@ const Menu = (props) => {
             {
               backgroundColor: pressed
                 ? 'rgb(107, 51, 137)'
-                : '#3C6CA4'
+                : '#D6A534'
             },
             styles.button
           ]}
@@ -98,7 +98,6 @@ const Menu = (props) => {
   const { height } = useWindowDimensions();
   return (
     <SafeAreaView style={styles.container}>
-
       <FlatList
         data={data}
         renderItem={({ item }) => <Item title={item.shop_name} shopId={item.id} />}
