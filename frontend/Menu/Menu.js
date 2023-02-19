@@ -20,7 +20,7 @@ const Menu = (props) => {
   const [data, setData] = useState('');
 
   if (i == 0) {
-    fetch(`http://192.168.1.5:3000/get_shops`)
+    fetch(`http://ip/get_shops`)
       .then(res => {
         return res.json();
       })
