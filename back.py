@@ -147,53 +147,70 @@ def log_in(mail, passwd, client):
 def ticket():
     try:
         db = dataset.connect('sqlite:///etiket_db.db')
-        
         shop_id = request.json['shop_id']
-        user_id = request.json['user_id']
         shop_name = db['Shop'].find_one(id=shop_id)['shop_name']
-        print(shop_name)
-
-        last_number = 0
-
-        # gets the last ticket number
-        for ticket in db['Ticket']:
-
-            if ticket['number'] > last_number and ticket['shop_id'] == shop_id:
-                last_number = ticket['number']
-
-        current_number = int(1e4)
-        # gets the current number
-        for ticket in db['Ticket']:
-
-            if ticket['number'] < current_number and ticket['shop_id'] == shop_id:
-                current_number = ticket['number']
-
-        try:
+        user_id = request.json['user_id']
+        
+        if request.method == "POST":
             
-            last_time = db['Ticket'].find_one(number=last_number, shop_id=shop_id)
-            time = last_time['time'] + 3
-        except:
+            if db['Ticket'].find_one(shop_id=shop_id, user_id=user_id) is not None:
+                return jsonify({"status":"403 Forbidden User already have a ticket for this service"})
+                
+            last_number = 0
 
-            time = 3
+            # gets the last ticket number
+            for ticket in db['Ticket']:
 
+                if ticket['number'] > last_number and ticket['shop_id'] == shop_id:
+                    last_number = ticket['number']
 
+            try:
+                
+                last_time = db['Ticket'].find_one(number=last_number, shop_id=shop_id)
+                time = last_time['time'] + 3
+            except:
 
-        db['Ticket'].insert(dict(shop_id=shop_id, user_id=user_id, number=last_number + 1, time=time))
-        if current_number == 1e4:
-            current_number=1
+                time = 3
 
-        if request.method == 'GET':
+            db['Ticket'].insert(dict(shop_id=shop_id, user_id=user_id, number=last_number + 1, time=time))
+            return jsonify({"status": "200 OK Ticket added successfully"})
+        else:
+            
+            ticket_id = db['Ticket'].find_one(shop_id=shop_id, user_id=user_id,)['id']
+            number = db['Ticket'].find_one(shop_id=shop_id, user_id=user_id,)['number']
+            time = db['Ticket'].find_one(shop_id=shop_id, user_id=user_id,)['time']
+            
+            current_number = int(1e4)
+            
+            # gets the current number
+            for ticket in db['Ticket']:
 
-            return jsonify(dict(shop_name = shop_name,
+                if ticket['number'] < current_number and ticket['shop_id'] == shop_id:
+                    current_number = ticket['number']
+
+            if current_number == 1e4:
+                current_number = 1
+    
+            return jsonify(dict(shop_name=shop_name,
                             shop_id=shop_id,
                             user_id=user_id,
-                            number=last_number + 1,
+                            ticket_id=ticket_id,
+                            number=number,
                             current_number = current_number,
                             time=time))
-        else:
-            return jsonify({"status": "200 OK Ticket added successfully"})
+        
     except:
         return jsonify({"status": "ERROR 404 User not Found"})
+
+@app.route('/remove_ticket/<ticket_id>', methods=['POST'])
+def remove_ticket():
+    try:
+        db = dataset.connect('sqlite:///etiket_db.db')
+    
+
+        
+    except:
+        return jsonify({"status": "ERROR 404 ticket not Found"})
 
 
 if __name__ == "__main__":
