@@ -143,7 +143,7 @@ def log_in(mail, passwd, client):
     except:
         return jsonify({"status":"ERROR 404 User not Found"})
 
-@app.route('/ticket', methods=['POST'])
+@app.route('/ticket', methods=['POST', 'GET'])
 def ticket():
     try:
         db = dataset.connect('sqlite:///etiket_db.db')
@@ -181,17 +181,19 @@ def ticket():
         db['Ticket'].insert(dict(shop_id=shop_id, user_id=user_id, number=last_number + 1, time=time))
         if current_number == 1e4:
             current_number=1
-        return jsonify(dict(shop_name = shop_name,
+        if request.method == 'GET':
+
+            return jsonify(dict(shop_name = shop_name,
                             shop_id=shop_id,
                             user_id=user_id,
                             number=last_number + 1,
                             current_number = current_number,
                             time=time))
+        else:
+            return jsonify({"status": "200 OK Ticket added successfully"})
     except:
         return jsonify({"status": "ERROR 404 User not Found"})
 
 
-
-
 if __name__ == "__main__":
-    app.run(host = 'ip', port = 3000, debug=True)
+    app.run(host = '127.0.0.1', port = 3000, debug=True)
