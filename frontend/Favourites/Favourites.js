@@ -34,11 +34,6 @@ const Favourites = (props) => {
                     setData(result);
                 })
     }
-    if (i == 0) {
-        i++;
-    }
-
-
 
     const Item = ({ title }) => (
         <View style={styles.item}>

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, Pressable, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, Pressable, TouchableOpacity, RefreshControl, ActivityIndicator } from "react-native";
 import Input from "../Input";
 import Button from "../components/Button";
 import Logo from "../images/Home.png";
@@ -17,12 +17,40 @@ function Home(props) {
   // gets the ID of the client that signed in
   console.log("PROP: " + JSON.stringify(props.route["params"]));
 
+  const [refreshing, setRefreshing] = useState(true);
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
   const [index, setIndex] = useState(0);
   const onCancelPressed = () => {
     console.warn("Cancel");
     index = 1;
   }
-  
+
+  const loadUserData = () => {
+    fetch("http://ip/ticket", {
+              method: "GET",
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                "shop_id": shopId,
+                "shop_name": shopName,
+                "user_id": id
+              })
+            })
+              .then(res => {
+                console.log(res.status);
+                return res.json();
+              })
+              .then(
+                (result) => {
+                  console.log(result);
+                })
+  }
+
 
   const onDelayPressed = () => {
     console.warn("Delay");
@@ -33,7 +61,11 @@ function Home(props) {
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={loadUserData} />
+      }>
+        {refreshing ? <ActivityIndicator color="#3C6CA4"/> : null}
       <View style={styles.root}>
         <Image source={Ticket} style={[styles.logo]} resizeMode="contain" />
         <View style={styles.onTicket}>
@@ -71,7 +103,7 @@ const HomeScreen = ({ route }) => {
 
   const navigation = createBottomTabNavigator();
   const Tab = createBottomTabNavigator();
-  const {clientId} = route.params;
+  const { clientId } = route.params;
   console.log(JSON.stringify(clientId));
 
   const { height } = useWindowDimensions();
@@ -80,7 +112,7 @@ const HomeScreen = ({ route }) => {
     <Tab.Navigator initialRouteName="Home" screenOptions={{
       tabBarShowLabel: false,
       headerShown: false,
-      tabBarStyle: { backgroundColor: "grey"},
+      tabBarStyle: { backgroundColor: "grey" },
       tabBarLabelStyle: { color: "white", fontFamily: 'Helvetica', fontSize: 15, }
     }}>
       <Tab.Screen name="Menu" component={Menu} initialParams={{ clientId: clientId }} options={{

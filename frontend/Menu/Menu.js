@@ -34,9 +34,9 @@ const Menu = (props) => {
 
   
 
-  const Item = ({ title, shopId }) => (
+  const Item = ({ shopName, shopId }) => (
     <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title}>{shopName}</Text>
       <View style={styles.itemButton}>
         <Pressable
           style={({ pressed }) => [
@@ -48,7 +48,26 @@ const Menu = (props) => {
             styles.button
           ]}
           onPress={() => {
-            //qq coisa
+            fetch("http://ip/ticket", {
+              method: "POST",
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                "shop_id": shopId,
+                "shop_name": shopName,
+                "user_id": id
+              })
+            })
+              .then(res => {
+                console.log(res.status);
+                return res.json();
+              })
+              .then(
+                (result) => {
+                  console.log(result);
+                })
           }}>
           {({ pressed }) => (
             <Text style={styles.textButton}>Ticket</Text>
@@ -64,7 +83,7 @@ const Menu = (props) => {
             styles.button
           ]}
           onPress={() => {
-            fetch("http://ip/fav", {
+            fetch("http://192.168.1.102:3000/fav", {
               method: "POST",
               headers: {
                 Accept: 'application/json',
@@ -100,7 +119,7 @@ const Menu = (props) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={data}
-        renderItem={({ item }) => <Item title={item.shop_name} shopId={item.id} />}
+        renderItem={({ item }) => <Item shopName={item.shop_name} shopId={item.id} />}
         keyExtractor={item => item.id}
       />
     </SafeAreaView>
