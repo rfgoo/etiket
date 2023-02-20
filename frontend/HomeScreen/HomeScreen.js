@@ -16,40 +16,40 @@ function Home(props) {
 
   // gets the ID of the client that signed in
   console.log("PROP: " + JSON.stringify(props.route["params"]));
-
-  const [refreshing, setRefreshing] = useState(true);
-  useEffect(() => {
-    loadUserData();
-  }, []);
+  info = JSON.stringify(props.route["params"]);
+  let id = JSON.stringify(props.route["params"]["clientId"]);
+  let shopId = JSON.stringify(props.route["params"]["shopId"]);
 
   const [index, setIndex] = useState(0);
+  const [data, setData] = useState('');
+
   const onCancelPressed = () => {
     console.warn("Cancel");
     index = 1;
   }
 
-  const loadUserData = () => {
-    fetch("http://ip/ticket", {
-              method: "GET",
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                "shop_id": shopId,
-                "shop_name": shopName,
-                "user_id": id
-              })
-            })
-              .then(res => {
-                console.log(res.status);
-                return res.json();
-              })
-              .then(
-                (result) => {
-                  console.log(result);
-                })
-  }
+  fetch("http://ip/ticket", {
+    method: "GET",
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      "shop_id": shopId,
+      "user_id": id
+    })
+  })
+    .then(res => {
+      console.log(res.status);
+      return res.json();
+    })
+    .then(
+      (result) => {
+        console.log(result);
+        setData(result);
+      })
+
+  console.log("DATA: " + JSON.stringify(data));
 
 
   const onDelayPressed = () => {
@@ -61,11 +61,7 @@ function Home(props) {
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={loadUserData} />
-      }>
-        {refreshing ? <ActivityIndicator color="#3C6CA4"/> : null}
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
       <View style={styles.root}>
         <Image source={Ticket} style={[styles.logo]} resizeMode="contain" />
         <View style={styles.onTicket}>

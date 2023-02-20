@@ -32,7 +32,7 @@ const Menu = (props) => {
     i++;
   }
 
-  
+  const navigation = useNavigation();
 
   const Item = ({ shopName, shopId }) => (
     <View style={styles.item}>
@@ -68,6 +68,9 @@ const Menu = (props) => {
                 (result) => {
                   console.log(result);
                 })
+            navigation.navigate("Home", {
+              shopId: shopId
+            });
           }}>
           {({ pressed }) => (
             <Text style={styles.textButton}>Ticket</Text>
@@ -112,7 +115,7 @@ const Menu = (props) => {
     </View>
   );
 
-  
+
 
   const { height } = useWindowDimensions();
   return (
