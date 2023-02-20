@@ -202,15 +202,20 @@ def ticket():
     except:
         return jsonify({"status": "ERROR 404 User not Found"})
 
-@app.route('/remove_ticket/<ticket_id>', methods=['POST'])
-def remove_ticket():
+@app.route('/remove_ticket/<ticket_id>', methods=['POST', 'GET'])
+def remove_ticket(ticket_id):
     try:
         db = dataset.connect('sqlite:///etiket_db.db')
+        removed = db['Ticket'].find_one(id=ticket_id)
+        db['Ticket'].delete(id=ticket_id)
     
+        if removed is None:
+            return jsonify({"status": "ERROR 404 ticket not Found"})                
 
-        
+        return  jsonify(removed)
+
     except:
-        return jsonify({"status": "ERROR 404 ticket not Found"})
+        return jsonify({"status": "ERROR 418 I'm a teacup"})
 
 
 if __name__ == "__main__":
