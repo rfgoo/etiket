@@ -181,6 +181,7 @@ def ticket():
         db['Ticket'].insert(dict(shop_id=shop_id, user_id=user_id, number=last_number + 1, time=time))
         if current_number == 1e4:
             current_number=1
+
         if request.method == 'GET':
 
             return jsonify(dict(shop_name = shop_name,
