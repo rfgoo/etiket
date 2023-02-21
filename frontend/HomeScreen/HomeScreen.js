@@ -29,23 +29,18 @@ function Home(props) {
   }
 
   fetch("http://ip/ticket", {
-    method: "GET",
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
     body: JSON.stringify({
       "shop_id": shopId,
       "user_id": id
     })
   })
     .then(res => {
-      console.log(res.status);
+      console.log("GET" + res.status);
       return res.json();
     })
     .then(
       (result) => {
-        console.log(result);
+        console.log("GET DATA" + result);
         setData(result);
       })
 
