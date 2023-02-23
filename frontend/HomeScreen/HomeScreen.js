@@ -19,32 +19,48 @@ function Home(props) {
   info = JSON.stringify(props.route["params"]);
   let id = JSON.stringify(props.route["params"]["clientId"]);
   let shopId = JSON.stringify(props.route["params"]["shopId"]);
+  let action = JSON.stringify(props.route["params"]["action"]);
+
 
   const [index, setIndex] = useState(0);
   const [data, setData] = useState('');
+
+  const [refreshing, setRefreshing] = useState(true);
+  useEffect(() => {
+    loadUserData();
+  }, []);
 
   const onCancelPressed = () => {
     console.warn("Cancel");
     index = 1;
   }
 
-  fetch("http://ip/ticket", {
-    body: JSON.stringify({
-      "shop_id": shopId,
-      "user_id": id
-    })
-  })
-    .then(res => {
-      console.log("GET" + res.status);
-      return res.json();
-    })
-    .then(
-      (result) => {
-        console.log("GET DATA" + result);
-        setData(result);
-      })
+  let ticketNumber = "N/A";
+  let currentNumber = "N/A";
+  let timeToTicket = "N/A";
 
-  console.log("DATA: " + JSON.stringify(data));
+  const loadUserData = () => {
+    if (action) {
+      fetch(`http://ip/get_tickets/${id}`)
+        .then(res => {
+          return res.json();
+        })
+        .then(
+          (result) => {
+            console.log(result);
+            setRefreshing(false);
+            setData(result);
+          })
+      ticketNumber = JSON.stringify(data[id - 1]["number"]);
+      console.log("number " + JSON.stringify(data[id - 1]["number"]));
+      currentNumber = JSON.stringify(data[id - 1]["current_number"]);
+      timeToTicket = JSON.stringify(data[id - 1]["time"]);
+    }
+    else{
+      setRefreshing(false);
+    }
+  }
+  console.log("EU: " + ticketNumber);
 
 
   const onDelayPressed = () => {
@@ -56,11 +72,14 @@ function Home(props) {
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll} refreshControl={
+      <RefreshControl refreshing={refreshing} onRefresh={loadUserData} />
+    }>
+      {refreshing ? <ActivityIndicator color="#3C6CA4" /> : null}
       <View style={styles.root}>
         <Image source={Ticket} style={[styles.logo]} resizeMode="contain" />
         <View style={styles.onTicket}>
-          <Text style={styles.ticketNumberText}>Nº N/A</Text>
+          <Text style={styles.ticketNumberText}>Nº {ticketNumber}</Text>
           <View style={styles.onTicketSecondary}>
             <Text style={styles.ticketIndexText}>Nº Atual: {textLog}</Text>
             <Text style={styles.ticketTime}>Tempo de espera: N/A</Text>

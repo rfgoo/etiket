@@ -56,7 +56,6 @@ const Menu = (props) => {
               },
               body: JSON.stringify({
                 "shop_id": shopId,
-                "shop_name": shopName,
                 "user_id": id
               })
             })
@@ -69,7 +68,8 @@ const Menu = (props) => {
                   console.log(result);
                 })
             navigation.navigate("Home", {
-              shopId: shopId
+              shopId: shopId,
+              action: true
             });
           }}>
           {({ pressed }) => (
