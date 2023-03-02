@@ -20,7 +20,7 @@ const Menu = (props) => {
   const [data, setData] = useState('');
 
   if (i == 0) {
-    fetch(`http://ip/get_shops`)
+    fetch(`http://127.0.0.1:3000/get_shops`)
       .then(res => {
         return res.json();
       })
@@ -48,7 +48,7 @@ const Menu = (props) => {
             styles.button
           ]}
           onPress={() => {
-            fetch("http://ip/ticket", {
+            fetch("http://127.0.0.1:3000/ticket", {
               method: "POST",
               headers: {
                 Accept: 'application/json',

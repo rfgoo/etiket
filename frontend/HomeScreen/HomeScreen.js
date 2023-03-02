@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, Pressable, TouchableOpacity, RefreshControl, ActivityIndicator } from "react-native";
+import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, Pressable, TouchableOpacity, RefreshControl, ActivityIndicator, TouchableWithoutFeedback } from "react-native";
 import Input from "../Input";
 import Button from "../components/Button";
 import Logo from "../images/Home.png";
@@ -21,54 +21,41 @@ function Home(props) {
   let shopId = JSON.stringify(props.route["params"]["shopId"]);
   let action = JSON.stringify(props.route["params"]["action"]);
 
-
-  const [index, setIndex] = useState(0);
   const [data, setData] = useState('');
+  const [currentNumber, setCurrentNumber] = useState("N/A");
+  const [ticketNumber, setTicketNumber] = useState("N/A");
+  const [timeToTicket, setTimeToTicket] = useState("N/A");
+  const [ticketId, setTicketId] = useState(0);
 
   const [refreshing, setRefreshing] = useState(true);
   useEffect(() => {
     loadUserData();
   }, []);
 
-  const onCancelPressed = () => {
-    console.warn("Cancel");
-    index = 1;
-  }
-
-  let ticketNumber = "N/A";
-  let currentNumber = "N/A";
-  let timeToTicket = "N/A";
-
   const loadUserData = () => {
     if (action) {
-      fetch(`http://ip/get_tickets/${id}`)
+      fetch(`http://127.0.0.1:3000/get_tickets/${id}`)
         .then(res => {
           return res.json();
         })
         .then(
           (result) => {
             console.log(result);
+            setCurrentNumber(JSON.stringify(result[id - 1]["current_number"]));
+            setTicketNumber(JSON.stringify(result[id - 1]["number"]));
+            setTimeToTicket(JSON.stringify(result[id - 1]["time"]));
+            setTicketId(JSON.stringify(result[id - 1]["ticket_id"]));
             setRefreshing(false);
             setData(result);
           })
-      ticketNumber = JSON.stringify(data[id - 1]["number"]);
-      console.log("number " + JSON.stringify(data[id - 1]["number"]));
-      currentNumber = JSON.stringify(data[id - 1]["current_number"]);
-      timeToTicket = JSON.stringify(data[id - 1]["time"]);
     }
-    else{
+    else {
       setRefreshing(false);
     }
   }
-  console.log("EU: " + ticketNumber);
-
 
   const onDelayPressed = () => {
     console.warn("Delay");
-  }
-  let textLog = 'N/A';
-  if (index > 0) {
-    textLog = index;
   }
 
   return (
@@ -81,14 +68,24 @@ function Home(props) {
         <View style={styles.onTicket}>
           <Text style={styles.ticketNumberText}>Nº {ticketNumber}</Text>
           <View style={styles.onTicketSecondary}>
-            <Text style={styles.ticketIndexText}>Nº Atual: {textLog}</Text>
-            <Text style={styles.ticketTime}>Tempo de espera: N/A</Text>
+            <Text style={styles.ticketIndexText}>Current Number: {currentNumber}</Text>
+            <Text style={styles.ticketTime}>Waiting Time: {timeToTicket} min</Text>
           </View>
 
         </View>
         <Pressable
           onPress={() => {
-            setIndex((current) => current + 1);
+            setTicketNumber("N/A");
+            setTimeToTicket("N/A");
+            setCurrentNumber(currentNumber-1);
+            fetch(`http://127.0.0.1:3000/remove_ticket/${ticketId}`)
+              .then(res => {
+                return res.json();
+              })
+              .then(
+                (result) => {
+                  console.log(result);
+                })
           }}
           style={({ pressed }) => [
             {
@@ -102,7 +99,22 @@ function Home(props) {
             <Text style={styles.textButton}>Cancel</Text>
           )}
         </Pressable>
-        <Button text="Delay" onPress={() => onDelayPressed()} />
+        <Pressable
+          onPress={() => {
+            setIndex((current) => current + 1);
+          }}
+          style={({ pressed }) => [
+            {
+              backgroundColor: pressed
+                ? 'rgb(107, 51, 137)'
+                : '#3C6CA4'
+            },
+            styles.container
+          ]}>
+          {({ pressed }) => (
+            <Text style={styles.textButton}>Delay</Text>
+          )}
+        </Pressable>
       </View>
     </ScrollView>
 
@@ -206,7 +218,8 @@ const styles = StyleSheet.create({
     width: '60%',
     padding: 15,
     borderRadius: 50,
-    alignItems: 'center'
+    alignItems: 'center',
+    marginVertical: 15
   },
   textButton: {
     color: 'white',

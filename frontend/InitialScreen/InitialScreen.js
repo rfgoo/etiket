@@ -20,7 +20,7 @@ const SignUpScreen = () => {
 
     const onSignInPressed = (email, password, type) => {
         let valid = false;
-        fetch(`http://ip/log_in/${email}/${password}/${type}`)
+        fetch(`http://127.0.0.1:3000/log_in/${email}/${password}/${type}`)
             .then(res => {
                 if(res.status == "200"){
                    console.log(res.status);
