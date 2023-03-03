@@ -269,4 +269,4 @@ def delay(ticket_id, delay_time):
 
 
 if __name__ == "__main__":
-    app.run(host = '127.0.0.1', port = 3000, debug=True)
+    app.run(host = 'ip', port = 3000, debug=True)

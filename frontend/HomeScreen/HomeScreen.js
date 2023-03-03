@@ -34,7 +34,7 @@ function Home(props) {
 
   const loadUserData = () => {
     if (action) {
-      fetch(`http://127.0.0.1:3000/get_tickets/${id}`)
+      fetch(`http://ip:3000/get_tickets/${id}`)
         .then(res => {
           return res.json();
         })
@@ -48,6 +48,11 @@ function Home(props) {
             setRefreshing(false);
             setData(result);
           })
+          .catch(function(error) {
+            console.log('There has been a problem with your fetch operation: ' + error.message);
+             // ADD THIS THROW error
+              throw error;
+            });
     }
     else {
       setRefreshing(false);
@@ -77,8 +82,8 @@ function Home(props) {
           onPress={() => {
             setTicketNumber("N/A");
             setTimeToTicket("N/A");
-            setCurrentNumber(currentNumber-1);
-            fetch(`http://127.0.0.1:3000/remove_ticket/${ticketId}`)
+            setCurrentNumber(currentNumber - 1);
+            fetch(`http://ip:3000/remove_ticket/${ticketId}`)
               .then(res => {
                 return res.json();
               })
@@ -86,6 +91,11 @@ function Home(props) {
                 (result) => {
                   console.log(result);
                 })
+                .catch(function(error) {
+                  console.log('There has been a problem with your fetch operation: ' + error.message);
+                   // ADD THIS THROW error
+                    throw error;
+                  });
           }}
           style={({ pressed }) => [
             {
@@ -101,7 +111,19 @@ function Home(props) {
         </Pressable>
         <Pressable
           onPress={() => {
-            setIndex((current) => current + 1);
+            fetch(`http://ip:3000/delay/${ticketId}/${3}`)
+              .then(res => {
+                return res.json();
+              })
+              .then(
+                (result) => {
+                  console.log("DELAY"+result);
+                })
+                .catch(function(error) {
+                  console.log('There has been a problem with your fetch operation: ' + error.message);
+                   // ADD THIS THROW error
+                    throw error;
+                  });
           }}
           style={({ pressed }) => [
             {
@@ -178,7 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: "grey"
   },
   text: {
-    fontFamily: 'Helvetica',
+    //fontFamily: 'Helvetica',
     fontSize: 20,
     fontWeight: 'bold',
     color: "#3C6CA4",
@@ -188,20 +210,20 @@ const styles = StyleSheet.create({
     top: 80,
   },
   ticketNumberText: {
-    fontFamily: 'Helvetica',
+    //fontFamily: 'Helvetica',
     fontSize: 30,
     fontWeight: 'bold',
     color: "#3C6CA4"
   },
   ticketIndexText: {
-    fontFamily: 'Helvetica',
+    //fontFamily: 'Helvetica',
     fontSize: 17,
     fontWeight: 'bold',
     color: "#3C6CA4",
     padding: 10
   },
   ticketTime: {
-    fontFamily: 'Helvetica',
+    //fontFamily: 'Helvetica',
     fontSize: 17,
     fontWeight: 'bold',
     color: "#3C6CA4",
@@ -225,7 +247,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-    fontFamily: 'Helvetica'
+    //fontFamily: 'Helvetica'
   },
 })
 

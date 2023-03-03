@@ -23,7 +23,7 @@ const Favourites = (props) => {
     }, []);
 
     const loadUserData = () => {
-        fetch(`http://127.0.0.1:3000/get_fav/${id}`)
+        fetch(`http://ip:3000/get_fav/${id}`)
             .then(res => {
                 return res.json();
             })
