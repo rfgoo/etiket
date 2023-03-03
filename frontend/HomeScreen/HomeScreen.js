@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import Logo from "../images/Home.png";
 import Ticket from "../images/ticket.png"
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import SelectDropdown from 'react-native-select-dropdown'
 
 import { useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -22,6 +23,9 @@ function Home(props) {
   let action = JSON.stringify(props.route["params"]["action"]);
 
   const [data, setData] = useState('');
+  const delayTimes = ["10 min", "15 min", "20 min"];
+  const [timeToDelay, setTimeToDelay] = useState("");
+
   const [currentNumber, setCurrentNumber] = useState("N/A");
   const [ticketNumber, setTicketNumber] = useState("N/A");
   const [timeToTicket, setTimeToTicket] = useState("N/A");
@@ -81,7 +85,7 @@ function Home(props) {
           onPress={() => {
             setTicketNumber("N/A");
             setTimeToTicket("N/A");
-            setCurrentNumber(currentNumber - 1);
+            setCurrentNumber("N/A");
             fetch(`http://ip:3000/remove_ticket/${ticketId}`)
               .then(res => {
                 return res.json();
@@ -109,12 +113,13 @@ function Home(props) {
         </Pressable>
         <Pressable
           onPress={() => {
-            fetch(`http://ip:3000/delay/${ticketId}/${15}`)
+            fetch(`http://ip:3000/delay/${ticketId}/${parseInt(timeToDelay.split(" ")[0])}`)
               .then(res => {
                 return res.json();
               })
               .then(
                 (result) => {
+                  console.log("DELAY: "+ parseInt(timeToDelay.split(" ")[0]));
                   console.log("DELAY"+result);
                 })
                 .catch((error) => {
@@ -134,6 +139,24 @@ function Home(props) {
             <Text style={styles.textButton}>Delay</Text>
           )}
         </Pressable>
+        <SelectDropdown
+                    data={delayTimes}
+                    defaultButtonText={'Time'}
+                    onSelect={(selectedItem, index) => {
+                        console.log(selectedItem, index)
+                        setTimeToDelay(selectedItem);
+                    }}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                        // text represented after item is selected
+                        // if data array is an array of objects then return selectedItem.property to render after item is selected
+                        return selectedItem
+                    }}
+                    buttonStyle={styles.dropdown1BtnStyle}
+                    buttonTextStyle={styles.dropdown1BtnTxtStyle}
+                    dropdownStyle={styles.dropdown1DropdownStyle}
+                    rowStyle={styles.dropdown1RowStyle}
+                    rowTextStyle={styles.dropdown1RowTxtStyle}
+                />
       </View>
     </ScrollView>
 
@@ -246,6 +269,38 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     //fontFamily: 'Helvetica'
   },
+  dropdown1BtnStyle: {
+        flex: 1,
+        maxHeight: 50,
+        backgroundColor: 'grey',
+        borderRadius: 50,
+        width: '40%',
+      },
+    dropdown1BtnTxtStyle: { 
+        textAlign: 'center',
+        color: 'white',
+        fontFamily: 'Helvetica',
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginVertical: 10,
+    },
+    dropdown1DropdownStyle: { 
+        backgroundColor: '#grey',
+        marginVertical: -20,
+        height: 200,
+    },
+    dropdown1RowStyle: { 
+        backgroundColor: 'white',
+        margin: 2,
+        borderBottomColor: 'grey',
+        borderRadius: 50, 
+        marginVertical: 10,
+    },
+    dropdown1RowTxtStyle: {
+        fontFamily: 'Helvetica',
+        fontSize: 18,
+        textAlign: 'center' 
+    },
 })
 
 export default HomeScreen

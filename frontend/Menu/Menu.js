@@ -7,8 +7,6 @@ import { useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
-
-
 let i = 0;
 
 const Menu = (props) => {

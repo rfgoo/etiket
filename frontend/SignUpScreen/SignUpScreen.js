@@ -20,7 +20,7 @@ const InitialScreen = () => {
     const navigation = useNavigation();
 
     const onRegisterPressed = (name, email, password, type) => {
-        fetch("http://ip/add", {
+        fetch("http://ip:3000/add", {
             method: "POST",
             headers: {
                 Accept: 'application/json',
@@ -40,7 +40,12 @@ const InitialScreen = () => {
             .then(
                 (result) => {
                     console.log(result);
+                    navigation.navigate('InitialScreen');
                 })
+            .catch((error) => {
+                // Handle any errors that occur
+                console.error(error);
+            });
     }
     const onSignInPressed = () => {
         navigation.navigate('InitialScreen');
@@ -59,7 +64,7 @@ const InitialScreen = () => {
                 />
                 <Input
                     placeholder="Email"
-                    value={email}
+                    value={email.toLowerCase()}
                     setValue={setEmail}
                 />
                 <Input
@@ -118,8 +123,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'grey',
         borderRadius: 50,
         width: '70%',
-      },
-    dropdown1BtnTxtStyle: { 
+    },
+    dropdown1BtnTxtStyle: {
         textAlign: 'center',
         color: 'white',
         fontFamily: 'Helvetica',
@@ -127,22 +132,22 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginVertical: 10,
     },
-    dropdown1DropdownStyle: { 
+    dropdown1DropdownStyle: {
         backgroundColor: '#grey',
         marginVertical: 10,
         height: 200,
     },
-    dropdown1RowStyle: { 
+    dropdown1RowStyle: {
         backgroundColor: 'white',
         margin: 2,
         borderBottomColor: 'grey',
-        borderRadius: 50, 
+        borderRadius: 50,
         marginVertical: 10,
     },
     dropdown1RowTxtStyle: {
         fontFamily: 'Helvetica',
         fontSize: 18,
-        textAlign: 'center' 
+        textAlign: 'center'
     },
     logo: {
         width: '90%',
