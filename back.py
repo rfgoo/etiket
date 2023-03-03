@@ -232,6 +232,41 @@ def remove_ticket(ticket_id):
     except:
         return jsonify({"status": "ERROR 418 I'm a teacup"})
 
+@app.route('/delay/<ticket_id>/<delay_time>', methods=['GET'])
+def delay(ticket_id, delay_time):
+    try:
+        db = dataset.connect('sqlite:///etiket_db.db')
+        
+        delay_ticket = db['Ticket'].find_one(id=ticket_id)
+
+        delay = int(delay_ticket['time']) + int(delay_time)
+
+        shop_id = delay_ticket['shop_id']
+
+        delay_number = delay_ticket['number']
+
+
+        last_number = delay_number
+        for ticket in db['Ticket']:
+                if ticket['shop_id'] == int(shop_id) and int(ticket['number']) > int(delay_number) \
+                    and int(ticket['time']) < delay:
+                    last_number = ticket['number']
+                    data = dict(id=ticket['id'], number = last_number -1, time=int(ticket['time'])-3)
+                    db['Ticket'].update(data, ['id'])
+
+        
+        if last_number != delay_number:
+            data = dict(id=ticket_id, number = last_number, time=delay)
+            db['Ticket'].update(data, ['id'])
+
+            return jsonify(db['Ticket'].find_one(id=ticket_id))
+        else:
+            return jsonify({"status": "ERROR 400 Cannot delat last ticket"})
+
+
+    except:
+        return jsonify({"status": "ERROR 418 I'm a teacup"})
+
 
 if __name__ == "__main__":
     app.run(host = '127.0.0.1', port = 3000, debug=True)
