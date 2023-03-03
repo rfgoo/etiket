@@ -48,11 +48,10 @@ function Home(props) {
             setRefreshing(false);
             setData(result);
           })
-          .catch(function(error) {
-            console.log('There has been a problem with your fetch operation: ' + error.message);
-             // ADD THIS THROW error
-              throw error;
-            });
+          .catch((error) => {
+            // Handle any errors that occur
+            console.error(error);
+        });
     }
     else {
       setRefreshing(false);
@@ -91,11 +90,10 @@ function Home(props) {
                 (result) => {
                   console.log(result);
                 })
-                .catch(function(error) {
-                  console.log('There has been a problem with your fetch operation: ' + error.message);
-                   // ADD THIS THROW error
-                    throw error;
-                  });
+                .catch((error) => {
+                  // Handle any errors that occur
+                  console.error(error);
+              });
           }}
           style={({ pressed }) => [
             {
@@ -111,7 +109,7 @@ function Home(props) {
         </Pressable>
         <Pressable
           onPress={() => {
-            fetch(`http://ip:3000/delay/${ticketId}/${3}`)
+            fetch(`http://ip:3000/delay/${ticketId}/${15}`)
               .then(res => {
                 return res.json();
               })
@@ -119,11 +117,10 @@ function Home(props) {
                 (result) => {
                   console.log("DELAY"+result);
                 })
-                .catch(function(error) {
-                  console.log('There has been a problem with your fetch operation: ' + error.message);
-                   // ADD THIS THROW error
-                    throw error;
-                  });
+                .catch((error) => {
+                  // Handle any errors that occur
+                  console.error(error);
+              });
           }}
           style={({ pressed }) => [
             {
