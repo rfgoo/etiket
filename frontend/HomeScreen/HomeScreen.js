@@ -45,10 +45,11 @@ function Home(props) {
         .then(
           (result) => {
             console.log(result);
-            setCurrentNumber(JSON.stringify(result[id - 1]["current_number"]));
-            setTicketNumber(JSON.stringify(result[id - 1]["number"]));
-            setTimeToTicket(JSON.stringify(result[id - 1]["time"]));
-            setTicketId(JSON.stringify(result[id - 1]["ticket_id"]));
+            let aux = parseInt(JSON.stringify(result[0]["current_number"]));
+            setCurrentNumber(aux);
+            setTicketNumber(JSON.stringify(result[0]["number"]));
+            setTimeToTicket(JSON.stringify(result[0]["time"]));
+            setTicketId(JSON.stringify(result[0]["ticket_id"]));
             setRefreshing(false);
             setData(result);
           })
