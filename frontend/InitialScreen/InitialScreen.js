@@ -64,7 +64,7 @@ const SignUpScreen = () => {
 
                 <SelectDropdown
                     data={type}
-                    defaultButtonText={'Select an Option'}
+                    defaultButtonText={'Costumer/Business'}
                     onSelect={(selectedItem, index) => {
                         console.log(selectedItem, index)
                         setUserType(selectedItem);
